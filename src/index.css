@@ -1,0 +1,17 @@
+* {
+    @apply m-0 p-0;
+}
+
+body {
+    @apply min-h-screen min-w-max;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .font-jb {
+        font-family: "JetBrains Mono", serif;
+    }
+}

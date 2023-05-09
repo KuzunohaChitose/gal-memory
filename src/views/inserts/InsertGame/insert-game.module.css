@@ -1,0 +1,11 @@
+.card {
+    @apply text-center;
+}
+
+.form {
+    @apply m-auto;
+}
+
+.submit {
+    @apply bg-cyan-300;
+}

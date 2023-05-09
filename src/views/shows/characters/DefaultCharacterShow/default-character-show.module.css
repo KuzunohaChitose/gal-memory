@@ -1,0 +1,19 @@
+.image {
+    @apply fixed h-full w-full object-cover object-center;
+}
+
+.container {
+    @apply relative h-screen bg-cover bg-center bg-no-repeat;
+}
+
+.playerBox {
+    @apply absolute bottom-10 z-10 w-full text-center;
+}
+
+.player {
+    @apply inline-block;
+}
+
+.main {
+    @apply h-full w-full;
+}
