@@ -1,8 +1,6 @@
 import { createPool } from "mysql2";
 import { camelCase } from "lodash";
 import { pipe } from "fp-ts/function";
-import { identity as id } from "fp-ts";
-import { Tk } from "@/utils/funcs";
 
 const pool = createPool({
     host: "localhost",

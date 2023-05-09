@@ -65,3 +65,6 @@ create table play_log
     comment 'Galgame游戏日志，记录玩过的游戏';
 ```
 
+---
+
+> 主要使用的技术：[Vite](https://github.com/vitejs/vite)，[Electron](https://github.com/electron/electron)，[TypeScript](https://github.com/microsoft/TypeScript)，[React](https://github.com/facebook/react)，[FP-TS](https://github.com/gcanti/fp-ts)，[Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)，[Ant Design](https://github.com/ant-design/ant-design)，[aHooks](https://github.com/alibaba/hooks)，[MySQL](https://github.com/sidorares/node-mysql2)
