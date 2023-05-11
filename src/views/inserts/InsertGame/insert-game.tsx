@@ -6,9 +6,9 @@ import { insertGame } from "@/apis/sql-updater";
 import { FormItem } from "@/views/inserts";
 import { GameValidator } from "@/utils/validators";
 import { useStoreRefresh } from "@/utils/hooks";
-import { flow, pipe } from "fp-ts/function";
-import { Ar, Ei, IO, Tk } from "@/utils/funcs";
-import { call, key } from "@/utils/extra";
+import { pipe } from "fp-ts/function";
+import { array as Ar, either as Ei, io as IO, task as Tk } from "fp-ts";
+import { call, key } from "nohello-tools/es6/functions";
 
 const InsertGame: FC = () => {
     const items = useMemo(

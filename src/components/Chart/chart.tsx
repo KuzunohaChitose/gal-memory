@@ -1,26 +1,34 @@
 import style from "./chart.module.css";
-import { createRef } from "react";
+import { createRef, RefObject } from "react";
 import { ChartProps, StaticChartProps } from "@/components/Chart/index";
-import { isPresent, withDefaults } from "@/utils/funcs";
 import { useRequest } from "ahooks";
 import { useDynamicChart } from "@/utils/hooks";
+import { pipe } from "fp-ts/function";
+import { fromNullable, map, match } from "fp-ts/Option";
+import { EChartsOption } from "echarts";
 
-const Chart = <D extends unknown>(props: ChartProps<D>) => {
-    const { className, request, callback } = withDefaults(props)({
-        className: style.chart,
-    });
-    const div = createRef<HTMLDivElement>();
+const Chart = <D extends unknown>({
+    className = style.chart,
+    request,
+    callback,
+}: ChartProps<D>) => {
+    const div: RefObject<HTMLDivElement> = createRef<HTMLDivElement>();
     const { data } = useRequest(request);
-    useDynamicChart(div, isPresent(data) ? callback(data) : null);
+    pipe(
+        data,
+        fromNullable,
+        map(callback),
+        match<EChartsOption, [RefObject<HTMLDivElement>, EChartsOption | null]>(
+            () => [div, null],
+            (option) => [div, option]
+        ),
+        (res) => useDynamicChart(...res)
+    );
 
     return <div className={className} ref={div}></div>;
 };
 
-const Static = (props: StaticChartProps) => {
-    const { className, option } = withDefaults(props)({
-        className: style.chart,
-    });
-
+const Static = ({ className = style.chart, option }: StaticChartProps) => {
     const div = createRef<HTMLDivElement>();
 
     useDynamicChart(div, option);

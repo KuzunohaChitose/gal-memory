@@ -1,11 +1,13 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
-import { useAudio } from "@/utils/hooks";
-import { Ar, getResourcesByCid, isPresent, Op, staticPath, Tk } from "@/utils/funcs";
+import { getResourcesByCid, staticPath } from "@/utils/funcs";
 import { useRequest } from "ahooks";
 import Background from "@/components/Background";
 import { constant, pipe } from "fp-ts/function";
 import { key } from "@/utils/extra";
+import { useMusics } from "nohello-tools/es6/react-hooks";
+import { task as Tk, option as Op, array as Ar } from "fp-ts";
+import { isPresent } from "nohello-tools/es6/functions";
 
 const DefaultCharacterShow: FC = () => {
     const params = useParams();
@@ -31,7 +33,7 @@ const DefaultCharacterShow: FC = () => {
         })),
         useRequest
     );
-    useAudio(data?.musics);
+    useMusics(data?.musics);
 
     return <Background urls={data?.images} delay={10000}></Background>;
 };

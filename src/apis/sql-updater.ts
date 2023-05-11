@@ -1,6 +1,6 @@
 import { sqlUpdate, SqlUpdateInfo } from "@/apis/index";
 import { GameValidator } from "@/utils/validators";
-import { Ar, Ei, Tk } from "@/utils/funcs";
+import { array as Ar, either as Ei, task as Tk } from "fp-ts";
 import { pipe } from "fp-ts/function";
 import { ValidationError } from "class-validator";
 

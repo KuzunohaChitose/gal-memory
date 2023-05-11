@@ -1,8 +1,9 @@
 import { sqlQuery } from "@/apis/index";
 import { Character, Game, Log } from "@/utils/pojo";
-import { Ar, Ei, formatDate, Id, Tk, typeMapper } from "@/utils/funcs";
-import { flow, pipe } from "fp-ts/function";
-import { call } from "@/utils/extra";
+import { formatDate } from "@/utils/funcs";
+import { array as Ar, task as Tk } from "fp-ts";
+import { typeMapper } from "nohello-tools/es6/functions";
+import { pipe } from "fp-ts/function";
 
 type OriginalGame = {
     gameId: number;
@@ -39,7 +40,7 @@ type OriginalCharacter = {
 /**
  * 结果映射
  */
-const ResultMap = {
+const { toCharacter, toLog, toGame } = {
     toCharacter: typeMapper<OriginalCharacter, Character>({
         characterAlias: "alias",
         characterId: "id",
@@ -84,9 +85,11 @@ const ResultMap = {
     ),
 };
 
+const mapper = <X, Y>(to: (x: X) => Y) => pipe(to, Ar.map, Tk.map);
+
 const selectAllGames: Tk.Task<Game[]> = pipe(
     () => sqlQuery<OriginalGame>("select * from game_info"),
-    pipe(ResultMap.toGame, Ar.map, Tk.map)
+    mapper(toGame)
 );
 
 const selectAllCharacters: Tk.Task<Character[]> = pipe(
@@ -94,7 +97,7 @@ const selectAllCharacters: Tk.Task<Character[]> = pipe(
         sqlQuery<OriginalCharacter>(
             "select character_info.*, gi.game_alias from character_info left join game_info gi on character_info.game_id_main = gi.game_id"
         ),
-    pipe(ResultMap.toCharacter, Ar.map, Tk.map)
+    mapper(toCharacter)
 );
 
 const selectAllLogs: Tk.Task<Log[]> = pipe(
@@ -102,7 +105,7 @@ const selectAllLogs: Tk.Task<Log[]> = pipe(
         sqlQuery<OriginalLog>(
             "select t1.*, ci.character_alias from (select play_log.*, gi.game_alias from play_log left join game_info gi on play_log.game_id = gi.game_id) t1 left join character_info ci on t1.character_id = ci.character_id"
         ),
-    pipe(ResultMap.toLog, Ar.map, Tk.map)
+    mapper(toLog)
 );
 
 export { selectAllGames, selectAllLogs, selectAllCharacters };

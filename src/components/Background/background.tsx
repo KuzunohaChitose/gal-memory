@@ -1,27 +1,20 @@
-import { isPresent, withDefaults } from "@/utils/funcs";
-import { useBgImage } from "@/utils/hooks";
-import { useEffect } from "react";
+import { isPresent } from "nohello-tools/es6/functions";
+import { FC, useEffect } from "react";
+import { useBackgroundImages } from "nohello-tools/es6/react-hooks";
 
-const Background = (props: {
+const Background: FC<{
     className?: string;
     duration?: number;
     delay: number | undefined;
     urls: string[] | undefined;
     children?: JSX.Element;
     color?: `${number},${number},${number}`;
-}) => {
-    const { urls, children, color, duration, className, delay } = withDefaults(props)({
-        className: "",
-        duration: 1,
-        children: <></>,
-        color: "22,78,99",
-    });
-
-    const [scope, pause] = useBgImage({
-        urls: urls ?? [],
+}> = ({ className = "", duration = 1, color = "22,78,99", delay = 10000, urls = [], children }) => {
+    const [scope, pause] = useBackgroundImages({
+        urls,
         color,
         duration,
-        delay: delay ?? 100000,
+        delay,
     });
 
     useEffect(() => {
